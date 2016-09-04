@@ -16,11 +16,15 @@ const fetchMe = (req, res, next) => {
 const fetchProfile = (req, res, next) => {
   const id = req.params.id;
 
-
+  db.User.findOne({where: {
+    id
+  }})
+  .then(user => res.send(user))
+  .catch(err => next(err));
 };
 
 
 module.exports = {
   fetchMe,
-  fetchFriend
+  fetchProfile
 }

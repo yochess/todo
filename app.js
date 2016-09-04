@@ -11,8 +11,9 @@ const sessionFileStore = require('session-file-store');
 const passport = require('./api/utils/passport.js');
 
 const authRouter = require('./api/routes/auth.js');
-const friendRouter = require('./api/routes/friend.js');
 const taskRouter = require('./api/routes/task.js');
+const friendRouter = require('./api/routes/friend.js');
+const profileRouter = require('./api/routes/profile.js');
 
 const app = express();
 const fileStore = sessionFileStore(session);
@@ -36,8 +37,13 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authRouter);
-app.use('/friend', friendRouter);
-app.use('/task', taskRouter);
+app.use('/api/task', taskRouter);
+app.use('/api/friend', friendRouter);
+app.use('/api/profile', profileRouter);
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
 app.get('/angular', (req, res) => {
   res.render('angular');

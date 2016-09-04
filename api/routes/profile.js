@@ -6,4 +6,6 @@ const passportMw = require('../utils/middlewares').passport;
 
 profileRouter
   .get('/', passportMw.isAuth, profileCtrl.fetchMe)
-  .get('/:id', profileCtrl.fetchFriend)
+  .get('/:id', profileCtrl.fetchProfile);
+
+module.exports = profileRouter;

@@ -1,9 +1,8 @@
 'use strict';
 const express = require('express');
-const passport = require('passport');
-const passportMw = require('../utils/middlewares').passport;
-const authCtrl = require('../controllers/auth.js');
 const authRouter = express.Router();
+const authCtrl = require('../controllers/auth.js');
+const passportMw = require('../utils/middlewares').passport;
 
 authRouter
   .post('/login', passportMw.authenticate('local-login'), authCtrl.login)

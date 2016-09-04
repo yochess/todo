@@ -20,8 +20,16 @@ const authenticate = (passportMethod) => {
   };
 };
 
+const isAuth = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(404).send('You are not authorized to perform this action!');
+  }
+  return next();
+};
+
 module.exports = {
   passport: {
-    authenticate
+    authenticate,
+    isAuth
   }
 };

@@ -13,30 +13,27 @@ const User = sequelize.define('user', {
 });
 
 const Friend = sequelize.define('friend', {
+  status: Sequelize.INTEGER
 });
 
 const Task = sequelize.define('task', {
   title: Sequelize.STRING,
-  description: Sequelize.STRING
+  description: Sequelize.STRING,
+  status: Sequelize.INTEGER,
+  privacy: Sequelize.INTEGER
 });
 
-const Privacy = sequelize.define('privacy', {
-  type: Sequelize.STRING
-});
 
 User.hasMany(Friend);
 User.hasMany(Task);
 Friend.belongsTo(User, {as: 'user'});
 Friend.belongsTo(User, {as: 'friend'});
 Task.belongsTo(User);
-Task.hasOne(Privacy);
-Privacy.belongsTo(Task);
 
 sequelize.sync();
 
 module.exports = {
   User,
   Friend,
-  Task,
-  Privacy
+  Task
 };

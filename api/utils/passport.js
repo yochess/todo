@@ -19,6 +19,7 @@ passport.deserializeUser((id, done) => {
 passport.use('local-signup', new LocalStrategy(
 {passReqToCallback: true},
 (req, username, password, done) => {
+  const email = req.body.email;
   db.User
     .findOne({where: {username}})
     .then(userExist => {
@@ -29,7 +30,7 @@ passport.use('local-signup', new LocalStrategy(
         });
       }
       db.User
-        .create({username, password})
+        .create({username, password, email})
         .then(newUser => done(null, newUser))
         .catch(err => done(err));
     })

@@ -1,7 +1,7 @@
 'use strict';
 const db = require('../utils/dbconfig.js');
 
-const fetchAll = (req, res) => {
+const fetchAll = (req, res, next) => {
   const userId = req.session.passport.user;
   db.Friend.findAll({
     where: {
@@ -12,7 +12,7 @@ const fetchAll = (req, res) => {
   .catch(err => next(err));
 };
 
-const fetchRequests = (req, res) => {
+const fetchRequests = (req, res, next) => {
   const userId = req.session.passport.user;
   db.Friend.findAll({
     where: {
@@ -24,7 +24,7 @@ const fetchRequests = (req, res) => {
   .catch(err => next(err));
 };
 
-const makeRequest = (req, res) => {
+const makeRequest = (req, res, next) => {
   const userId = req.session.passport.user;
   const friendId = req.body.friendId;
 
@@ -44,7 +44,7 @@ const makeRequest = (req, res) => {
     .catch(err => next(err));
 };
 
-const makeResponse = (req, res) => {
+const makeResponse = (req, res, next) => {
   const userId = req.session.passport.user;
   const id = req.params.id;
   let status;

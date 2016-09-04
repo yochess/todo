@@ -16,9 +16,7 @@ const isAuth = (req, res) => {
 
 const logout = (req, res) => {
   req.logout();
-  req.redirect('/', {
-    message: 'User is Logged Out!'
-  });
+  return res.send('Logged Out!');
 };
 
 module.exports = {

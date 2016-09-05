@@ -69,12 +69,9 @@
         .state('user', {
           url: '/:id',
           parent: 'profile',
-          templateUrl: './profile/user.html',
-          controller: ['Profile', '$stateParams', function(Profile, $stateParams) {
-            const vm2 = this;
-            Profile.fetchUser($stateParams.id).then(data => vm2.user = data);
-          }],
-          controllerAs: 'vm2'
+          templateUrl: './user/user.html',
+          controller: 'userCtrl',
+          controllerAs: 'vm'
         })
     }
   ]);

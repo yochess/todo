@@ -5,16 +5,17 @@
   app.controller('profileCtrl', [
     'Profile',
     'Friend',
+    'User',
     '$state',
     '$stateParams',
-    function(Profile, Friend, $state, $stateParams) {
+    function(Profile, Friend, User, $state, $stateParams) {
       const vm = this;
       vm.users = [];
       vm.friends = [];
       vm.me = {};
 
       vm.fetchUsers = () => {
-        Profile.fetchUsers().then(users => {
+        User.fetchUsers().then(users => {
           vm.users = users;
         });
       };

@@ -4,35 +4,53 @@
   <div ng-show="vm.tasks && vm.tasks.length > 0">
     <div class="row" ng-repeat="task in vm.tasks track by $index">
       <div class="col-md-2">
-        <span ng-hide="vm.clicked[$index]" ng-click="vm.toggleEdit($index)">
-          <span><a>EDIT</a></span>
+
+        <!-- turn to directive -->
+        <span ng-hide="vm.clicked[$index]" ng-click="vm.toggleEdit(null, $index)">
+          <a>EDIT</a>
         </span>
-        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit($index, false)">
-          <span><a>CANCEL</a></span>
+        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit(false, $index)">
+          <a>CANCEL</a>
         </span>
-        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit($index, true)">
-          <span><a>SAVE</a></span>
+        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit(true, $index)">
+          <a>SAVE</a>
         </span>
+        <!-- turn to directive -->
+
       </div>
       <div class="col-md-2">
+
+        <!-- turn to directive -->
         <span ng-hide="vm.clicked[$index]">{{task.title}}</span>
         <input ng-show="vm.clicked[$index]" type="text" ng-model="task.title">
+        <!-- turn to directive -->
+
       </div>
       <div class="col-md-4">
+
+        <!-- turn to directive -->
         <span ng-hide="vm.clicked[$index]">{{task.description}}</span>
         <textarea cols="50" ng-show="vm.clicked[$index]" type="text" ng-model="task.description"></textarea>
+        <!-- turn to directive -->
+
       </div>
       <div class="col-md-2">
+
+        <!-- turn to directive -->
         <span ng-hide="vm.clicked[$index]">
           <span ng-if="task.privacy === '1'">Public</span>
           <span ng-if="task.privacy === '2'">Private</span>
           <span ng-if="task.privacy === '3'">Protected</span>
         </span>
-          <select ng-init="task.privacy" ng-model="task.privacy" ng-show="vm.clicked[$index]">
-            <option value="1">Public</option>
-            <option value="2">Private</option>
-            <option value="3">Friends Only</option>
-          </select>
+
+        <!-- turn to directive -->
+        <select ng-init="task.privacy" ng-model="task.privacy" ng-show="vm.clicked[$index]">
+          <option value="1">Public</option>
+          <option value="2">Private</option>
+          <option value="3">Friends Only</option>
+        </select>
+        <!-- turn to directive -->
+
       </div>
       <div class="col-md-2">
         <a ng-show="vm.clicked[$index]">

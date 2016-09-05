@@ -4,13 +4,14 @@
 
   app.controller('profileCtrl', [
     'Profile',
+    'Friend',
     '$state',
     '$stateParams',
-    function(Profile, $state, $stateParams) {
+    function(Profile, Friend, $state, $stateParams) {
       const vm = this;
       vm.users = [];
       vm.friends = [];
-      vm.me;
+      vm.me = {};
 
       vm.fetchUsers = () => {
         Profile.fetchUsers().then(users => {
@@ -18,22 +19,38 @@
         });
       };
 
-      vm.fetchFriends = () => {
-        Profile.fetchFriends().then(friends => {
-          vm.friends = friends;
-          console.log(friends);
-        });
-      };
-
-      vm.fetchMe = () => {
-        Profile.fetchMe().then(user => {
+      vm.fetchProfile = () => {
+        Profile.fetchProfile().then(user => {
           vm.me = user;
         });
       };
 
+      vm.fetchFriends = () => {
+        Friend.fetchFriends().then(friends => {
+          vm.friends = friends;
+          console.log('friends: ', friends);
+        });
+      };
+
+      // turn into service!
+      vm.originalMe;
+      vm.clicked;
+      vm.toggleEdit = (bool) => {
+        vm.clicked = !vm.clicked;
+
+        if (bool === null) {
+          vm.originalMe = Object.assign({}, vm.me);
+        } else if (bool === false) {
+          vm.me = vm.originalMe;
+        } else {
+          Profile.editProfile(vm.me)
+            .catch(err => console.error(err));
+        }
+      };
+
       vm.fetchUsers();
       vm.fetchFriends();
-      vm.fetchMe();
+      vm.fetchProfile();
     }
   ]);
 })();

@@ -1,15 +1,17 @@
 'use strict';
 const db = require('../utils/dbconfig.js');
 
-const fetchAll = (req, res, next) => {
+const fetchFriends = (req, res, next) => {
   const userId = req.session.passport.user;
+
   db.Friend.findAll({
     where: {
       userId
     }
   })
-  .then(friends => res.send(friends))
-  .catch(err => next(err));
+  .then(friends => {
+    res.send(friends);
+  })
 };
 
 const fetchRequests = (req, res, next) => {
@@ -23,6 +25,18 @@ const fetchRequests = (req, res, next) => {
   .then(friends => res.send(friends))
   .catch(err => next(err));
 };
+
+const fetchResponses = (req, res, next) => {
+  const userId = req.session.passport.user;
+  db.Friend.findAll({
+    where: {
+      friendId: userId,
+      status: '1'
+    }
+  })
+  .then(friends => res.send(friends))
+  .catch(err => next(err));
+}
 
 const makeRequest = (req, res, next) => {
   const userId = req.session.passport.user;
@@ -47,13 +61,9 @@ const makeRequest = (req, res, next) => {
 const makeResponse = (req, res, next) => {
   const userId = req.session.passport.user;
   const id = req.params.id;
-  let status;
+  const status = req.body.status;
 
-  if (req.body.status === 'accept') {
-    status = '2';
-  } else if (req.body.status === 'decline') {
-    status = '3';
-  } else {
+  if (status !== '2' && status !== '3') {
     return res.status(404).send('You are attempting an invalid operation!');
   }
 
@@ -85,8 +95,9 @@ const makeResponse = (req, res, next) => {
 };
 
 module.exports = {
-  fetchAll,
+  fetchFriends,
   fetchRequests,
+  fetchResponses,
   makeRequest,
   makeResponse
 };

@@ -1,19 +1,6 @@
 'use strict';
 const db = require('../utils/dbconfig.js');
 
-const fetchFriends = (req, res, next) => {
-  const userId = req.session.passport.user;
-
-  db.Friend.findAll({
-    where: {
-      userId
-    }
-  })
-  .then(friends => {
-    res.send(friends);
-  })
-};
-
 const fetchProfile = (req, res, next) => {
   const id = req.session.passport.user;
 
@@ -49,7 +36,6 @@ const editProfile = (req, res, next) => {
 };
 
 module.exports = {
-  fetchFriends,
   fetchProfile,
   editProfile
 };

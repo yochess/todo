@@ -14,6 +14,7 @@ const authRouter = require('./api/routes/auth.js');
 const taskRouter = require('./api/routes/task.js');
 const friendRouter = require('./api/routes/friend.js');
 const profileRouter = require('./api/routes/profile.js');
+const userRouter = require('./api/routes/user.js');
 
 const app = express();
 const fileStore = sessionFileStore(session);
@@ -40,6 +41,7 @@ app.use('/auth', authRouter);
 app.use('/api/task', taskRouter);
 app.use('/api/friend', friendRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/user', userRouter);
 
 app.get('/', (req, res) => {
   res.render('index');

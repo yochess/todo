@@ -8,21 +8,7 @@
     function(Task, $state) {
       const vm = this;
       vm.tasks = [];
-      vm.originalTasks = [];
-      vm.clicked = [];
       vm.newTask = {};
-
-      vm.toggleEdit = (index, bool) => {
-        vm.clicked[index] = !vm.clicked[index];
-
-        if (bool === undefined) {
-          vm.originalTasks[index] = Object.assign({}, vm.tasks[index]);
-        } else if (bool === false) {
-          vm.tasks[index] = vm.originalTasks[index];
-        } else {
-          Task.editTask(vm.tasks[index]).catch(err => console.error(err));
-        }
-      };
 
       vm.fetchTasks = (index) => {
         Task.fetchTasks().then(data => {
@@ -46,6 +32,21 @@
         Task.deleteTask(vm.tasks[index]).then(data => {
           vm.fetchTasks(index);
         });
+      };
+
+      // turn into service!
+      vm.originalTasks = [];
+      vm.clicked = [];
+      vm.toggleEdit = (bool, index) => {
+        vm.clicked[index] = !vm.clicked[index];
+
+        if (bool === null) {
+          vm.originalTasks[index] = Object.assign({}, vm.tasks[index]);
+        } else if (bool === false) {
+          vm.tasks[index] = vm.originalTasks[index];
+        } else {
+          Task.editTask(vm.tasks[index]).catch(err => console.error(err));
+        }
       };
 
       vm.fetchTasks();

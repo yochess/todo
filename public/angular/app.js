@@ -72,7 +72,7 @@
           templateUrl: './profile/user.html',
           controller: ['Profile', '$stateParams', function(Profile, $stateParams) {
             const vm2 = this;
-            Profile.fetchProfile($stateParams.id).then(data => vm2.user = data);
+            Profile.fetchUser($stateParams.id).then(data => vm2.user = data);
           }],
           controllerAs: 'vm2'
         })

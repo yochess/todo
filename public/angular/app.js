@@ -33,7 +33,7 @@
           resolve: {
             logout: ['$state', 'Auth', function($state, Auth) {
               Auth.logout().then(data => {
-                $state.go('login');
+                $state.go('login', {}, {reload: true});
               });
             }]
           }
@@ -53,7 +53,6 @@
           controllerAs: 'vm',
           resolve: {
             auth: ['Auth', '$state', function(Auth, $state) {
-              console.log(Auth.isAuthSync());
               if (!Auth.isAuthSync()) {
                 $state.go('login');
               }
@@ -70,10 +69,17 @@
     }
   ]);
 
-  app.run([
-    '$rootScope',
-    function($rootScope) {
+  // app.run([
+  //   '$rootScope',
+  //   '$state',
+  //   function($rootScope, $state) {
+  //     $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
+  //       // still playing around with this
+  //     });
 
-    }
-  ]);
+  //     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+  //       // and this
+  //     });
+  //   }
+  // ]);
 })();

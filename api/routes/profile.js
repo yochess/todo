@@ -5,9 +5,8 @@ const profileCtrl = require('../controllers/profile.js');
 const passportMw = require('../utils/middlewares').passport;
 
 profileRouter
-  .get('/', passportMw.isAuth, profileCtrl.fetchMe)
-  .get('/users', profileCtrl.fetchUsers)
-  .get('/friends', passportMw.isAuth, profileCtrl.fetchFriends)
-  .get('/:id', profileCtrl.fetchProfile);
+  .get('/', passportMw.isAuth, profileCtrl.fetchProfile)
+  .put('/', passportMw.isAuth, profileCtrl.editProfile)
+  .get('/friends', passportMw.isAuth, profileCtrl.fetchFriends);
 
 module.exports = profileRouter;

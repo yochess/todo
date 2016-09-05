@@ -40,7 +40,6 @@ const editTask = (req, res, next) => {
   const description = req.body.description;
   const privacy = req.body.privacy
   if (privacy !== '1' && privacy !== '2' && privacy !== '3') {
-console.log(privacy);
     return res.status(404).send('Invalid Privacy Setting!');
   }
 

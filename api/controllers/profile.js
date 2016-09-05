@@ -1,18 +1,6 @@
 'use strict';
 const db = require('../utils/dbconfig.js');
 
-const fetchUsers = (req, res, next) => {
-  db.User.findAll({}).then(users => {
-    return res.send(users.map(user => {
-      return {
-        id: user.id,
-        username: user.username
-      };
-    }));
-  })
-  .catch(err => next(err));
-};
-
 const fetchFriends = (req, res, next) => {
   const userId = req.session.passport.user;
 
@@ -26,7 +14,7 @@ const fetchFriends = (req, res, next) => {
   })
 };
 
-const fetchMe = (req, res, next) => {
+const fetchProfile = (req, res, next) => {
   const id = req.session.passport.user;
 
   db.User.findOne({
@@ -38,30 +26,30 @@ const fetchMe = (req, res, next) => {
   .catch(err => next(err));
 };
 
-const fetchProfile = (req, res, next) => {
-  const id = req.params.id;
+const editProfile = (req, res, next) => {
+  const id = req.session.passport.user;
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
 
-  db.User.findOne({where: {
-    id
-  }})
-  .then(user => {
-    if (!user) {
-      return res.status(200).send('No Such User!');
+  db.User.findOne({
+    where: {
+      id
     }
-    return res.send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      joinDate: user.createdAt
-    })
   })
-  .catch(err => next(err));
+  .then(user => {
+    user.updateAttributes({
+      username,
+      password,
+      email
+    })
+    .then(updatedUser => res.status(201).send(updatedUser))
+  })
+  .catch(err => next(err))
 };
 
-
 module.exports = {
-  fetchUsers,
   fetchFriends,
-  fetchMe,
-  fetchProfile
-}
+  fetchProfile,
+  editProfile
+};

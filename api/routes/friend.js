@@ -6,8 +6,9 @@ const passportMw = require('../utils/middlewares').passport;
 
 friendRouter
   .get('/', passportMw.isAuth, friendCtrl.fetchFriends)
-  .get('/request', passportMw.isAuth, friendCtrl.fetchRequests)
-  .post('/request', passportMw.isAuth, friendCtrl.makeRequest)
-  .put('/response/:id', passportMw.isAuth, friendCtrl.makeResponse);
+  .get('/awaiting', passportMw.isAuth, friendCtrl.fetchAwaitingFriends)
+  .put('/awaiting/:id', passportMw.isAuth, friendCtrl.makeResponse)
+  .post('/request/:id', passportMw.isAuth, friendCtrl.makeRequest)
+  .get('/:id', passportMw.isAuth, friendCtrl.checkFriend);
 
 module.exports = friendRouter;

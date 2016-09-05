@@ -4,10 +4,45 @@
 
     <!-- FRIENDS and PROFILE-->
     <div class="col-md-4">
-      <h4 class="text-center">My Friends</h4>
-      <div>blah</div>
+      <h4>My Friends</h4>
+      <div ng-repeat="friend in vm.friends | filter: {status: '2'}">
+        {{friend.username}}
+      </div>
+      <hr>
 
-      <h4 class="text-center">My Profile</h4>
+      <h4>Requests Made</h4>
+      <div ng-repeat="friend in vm.friends | filter: {status: '1'}">
+        {{friend.username}} pending since {{friend.createdAt}}
+      </div>
+      <hr>
+
+      <h4>Awaiting Response</h4>
+      <div ng-repeat="awaiting in vm.awaitingFriends">
+        {{awaiting.username}} wants to be friends!
+        <a ng-click="vm.makeResponse(awaiting.id, '2')">Accept</a> | <a ng-click="vm.makeResponse(awaiting.id, '3')">Decline</a>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-md-4">
+          <h4>My Profile</h4>
+        </div>
+        <div class="col-md-8">
+
+          <!-- turn to directive -->
+          <span ng-hide="vm.clicked" ng-click="vm.toggleEdit(null, $index)">
+            <a>EDIT</a>
+          </span>
+          <span ng-show="vm.clicked" ng-click="vm.toggleEdit(false, $index)">
+            <a>CANCEL</a>
+          </span>
+          <span ng-show="vm.clicked" ng-click="vm.toggleEdit(true, $index)">
+            <a>SAVE</a>
+          </span>
+          <!-- turn to directive -->
+
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-4 text-right">username: </div>
         <div class="col-md-8">
@@ -40,21 +75,6 @@
           <!-- turn to directive -->
 
         </div>
-      </div>
-      <div>
-
-        <!-- turn to directive -->
-        <span ng-hide="vm.clicked" ng-click="vm.toggleEdit(null, $index)">
-          <a>EDIT</a>
-        </span>
-        <span ng-show="vm.clicked" ng-click="vm.toggleEdit(false, $index)">
-          <a>CANCEL</a>
-        </span>
-        <span ng-show="vm.clicked" ng-click="vm.toggleEdit(true, $index)">
-          <a>SAVE</a>
-        </span>
-        <!-- turn to directive -->
-
       </div>
     </div>
     <!-- end friends -->

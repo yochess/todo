@@ -72,7 +72,7 @@
           templateUrl: './user/user.html',
           controller: 'userCtrl',
           controllerAs: 'vm'
-        })
+        });
     }
   ]);
 

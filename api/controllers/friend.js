@@ -6,61 +6,135 @@ const fetchFriends = (req, res, next) => {
 
   db.Friend.findAll({
     where: {
-      userId
+      userId,
+      status: {
+        $ne: '3'
+      }
     }
   })
   .then(friends => {
-    res.send(friends);
+    Promise.all(friends.map(friend => {
+      return db.User.findOne({
+        where: {
+          id: friend.friendId
+        },
+        attributes: {
+          exclude: ['password']
+        }
+      });
+    }))
+    .then(allFriends => {
+      const obj = allFriends.map((oneFriend, index) => {
+        return {
+          id: oneFriend.id,
+          email: oneFriend.email,
+          createdAt: oneFriend.createdAt,
+          username: oneFriend.username,
+          updatedAt: oneFriend.updatedAt,
+          status: friends[index].status
+        };
+      });
+      return res.send(obj);
+    })
+    .catch(err => next(err));
   })
-};
-
-const fetchRequests = (req, res, next) => {
-  const userId = req.session.passport.user;
-  db.Friend.findAll({
-    where: {
-      userId,
-      status: '1'
-    }
-  })
-  .then(friends => res.send(friends))
   .catch(err => next(err));
 };
 
-const fetchResponses = (req, res, next) => {
+const checkFriend = (req, res, next) => {
   const userId = req.session.passport.user;
+  const friendId = req.params.id;
+
+  db.Friend.findOne({
+    where: {
+      userId,
+      friendId,
+      status: {
+        $ne: '3'
+      }
+    }
+  })
+  .then(isFriend => {
+    if (!isFriend) {
+      return res.status(200).send({bool: false});
+    }
+    return res.status(200).send({bool: true, data: isFriend});
+  });
+};
+
+const fetchAwaitingFriends = (req, res, next) => {
+  const userId = req.session.passport.user;
+
   db.Friend.findAll({
     where: {
       friendId: userId,
       status: '1'
     }
   })
-  .then(friends => res.send(friends))
+  .then(friends => {
+    Promise.all(friends.map(friend => {
+      return db.User.findOne({
+        where: {
+          id: friend.userId
+        },
+        attributes: {
+          exclude: ['password']
+        }
+      });
+    }))
+    .then(allFriends => {
+      const obj = allFriends.map((oneFriend, index) => {
+        return {
+          id: oneFriend.id,
+          email: oneFriend.email,
+          createdAt: oneFriend.createdAt,
+          username: oneFriend.username,
+          updatedAt: oneFriend.updatedAt,
+          status: friends[index].status
+        };
+      });
+      return res.send(obj);
+    })
+    .catch(err => next(err));
+  })
   .catch(err => next(err));
 }
 
 const makeRequest = (req, res, next) => {
   const userId = req.session.passport.user;
-  const friendId = req.body.friendId;
+  const friendId = req.params.id;
 
-  db.Friend.findOne({where: {userId, friendId}})
-    .then(friendExist => {
-      if (friendExist && friendExist.status === 1) {
-        return res.status(409).send('Request Already Pending!');
+  if (+userId === +friendId) {
+    return res.status(404).send('you cannot friend yourself!');
+  }
+
+  db.Friend.findOne({
+    where: {
+      userId,
+      friendId,
+      status: {
+        $ne: '3'
       }
-      db.Friend.create({
-        status: '1',
-        userId,
-        friendId
-      })
-      .then(friend => res.status(201).send('Friend Request is Made!'))
-      .catch(err => next(err));
+    }
+  })
+  .then(friendExist => {
+    if (friendExist && friendExist.status === '1') {
+      return res.status(409).send('Request Already Pending!');
+    }
+    db.Friend.create({
+      status: '1',
+      userId,
+      friendId
     })
+    .then(friend => res.status(201).send('Friend Request is Made!'))
     .catch(err => next(err));
+  })
+  .catch(err => next(err));
 };
 
 const makeResponse = (req, res, next) => {
   const userId = req.session.passport.user;
-  const id = req.params.id;
+  const friendId = req.params.id;
   const status = req.body.status;
 
   if (status !== '2' && status !== '3') {
@@ -70,7 +144,7 @@ const makeResponse = (req, res, next) => {
   db.Friend.findOne({
     where: {
       friendId: userId,
-      id
+      userId: friendId
     }
   })
   .then(friend => {
@@ -96,8 +170,8 @@ const makeResponse = (req, res, next) => {
 
 module.exports = {
   fetchFriends,
-  fetchRequests,
-  fetchResponses,
+  checkFriend,
+  fetchAwaitingFriends,
   makeRequest,
   makeResponse
 };

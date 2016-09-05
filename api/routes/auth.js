@@ -8,6 +8,7 @@ authRouter
   .post('/login', passportMw.authenticate('local-login'), authCtrl.login)
   .post('/signup', passportMw.authenticate('local-signup'), authCtrl.signup)
   .get('/isAuth', authCtrl.isAuth)
-  .get('/logout', authCtrl.logout);
+  .get('/logout', authCtrl.logout)
+  .get('/me', authCtrl.getUser);
 
 module.exports = authRouter;

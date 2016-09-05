@@ -1,15 +1,28 @@
 <div class="user">
 
-  <h4 class="text-center">Profile Details</h4>
-  <div class="row text-center">
+  <h4>{{vm.user.username}}'s Profile Details</h4>
+  <div>
     username: {{vm.user.username}} <br>
     email: {{vm.user.email}} <br>
     join date: {{vm.user.joinDate}}
   </div>
 
-  <h4 class="text-center">Friend Status</h4>
-  <div>
+  <div class="friend-status" ng-hide="vm.checkMe.a === vm.checkMe.b">
+
+    <h5>Friend Status</h5>
+    <div ng-show="vm.friend.bool">
+      <span ng-if="vm.friend.data.status === '1'">
+        Friend Request pending since {{vm.friend.data.createdAt}}
+      </span>
+      <span ng-if="vm.friend.data.status === '2'">
+        You two are friends since {{vm.friend.data.createdAt}}
+      </span>
+    </div>
+    <div ng-hide="vm.friend.bool">
+      You two are not friends <br><br>
+      Request friendship?
+      <button ng-click="vm.makeRequest()">Request</button>
+    </div>
 
   </div>
-
 </div>

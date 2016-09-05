@@ -106,12 +106,18 @@
         return deferred.promise;
       };
 
+      const getUser = () => {
+        return $http.get('/auth/me').then(res => res.data)
+          .catch(err => console.log(err))
+      };
+
       return {
         isAuthSync,
         login,
         signup,
         logout,
-        isAuthAsync
+        isAuthAsync,
+        getUser
       };
     }
   ]);

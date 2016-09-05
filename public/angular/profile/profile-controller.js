@@ -8,10 +8,12 @@
     'User',
     '$state',
     '$stateParams',
-    function(Profile, Friend, User, $state, $stateParams) {
+    'Auth',
+    function(Profile, Friend, User, $state, $stateParams, Auth) {
       const vm = this;
       vm.users = [];
       vm.friends = [];
+      vm.awaitingFriends = [];
       vm.me = {};
 
       vm.fetchUsers = () => {
@@ -29,9 +31,22 @@
       vm.fetchFriends = () => {
         Friend.fetchFriends().then(friends => {
           vm.friends = friends;
-          console.log('friends: ', friends);
         });
       };
+
+      vm.fetchAwaitingFriends = () => {
+        Friend.fetchAwaitingFriends().then(awaitingFriends => {
+          vm.awaitingFriends = awaitingFriends;
+        });
+      };
+
+      vm.makeResponse = (id, status) => {
+        Friend.makeResponse(id, {status: status}).then(friend => {
+          vm.fetchUsers();
+          vm.fetchFriends();
+          vm.fetchAwaitingFriends();
+        });
+      }
 
       // turn into service!
       vm.originalMe;
@@ -45,13 +60,17 @@
           vm.me = vm.originalMe;
         } else {
           Profile.editProfile(vm.me)
+            .then(data => {
+              $state.reload();
+            })
             .catch(err => console.error(err));
         }
       };
 
+      vm.fetchProfile();
       vm.fetchUsers();
       vm.fetchFriends();
-      vm.fetchProfile();
+      vm.fetchAwaitingFriends();
     }
   ]);
 })();

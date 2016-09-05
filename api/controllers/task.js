@@ -6,7 +6,8 @@ const fetchTasks = (req, res) => {
 
   db.Task.findAll({
     where: {
-      userId
+      userId,
+      status: 1
     }
   })
   .then(tasks => res.send(tasks))
@@ -38,8 +39,8 @@ const editTask = (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
   const privacy = +req.body.privacy
-
-  if (privacy !== 1 && privacy !== 2 || privacy !== 3) {
+  if (privacy !== 1 && privacy !== 2 && privacy !== 3) {
+console.log(privacy);
     return res.status(404).send('Invalid Privacy Setting!');
   }
 

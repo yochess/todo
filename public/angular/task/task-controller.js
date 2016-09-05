@@ -10,7 +10,6 @@
       vm.originalTasks = [];
       vm.newTask = {};
       vm.clicked = [];
-      vm.p = [];
 
       vm.toggleEdit = (index, bool) => {
         vm.clicked[index] = !vm.clicked[index];
@@ -20,11 +19,8 @@
         } else if (bool === false) {
           vm.tasks[index] = vm.originalTasks[index];
         } else {
-          Task.editTask(vm.tasks[index]).then(data => {
-            console.log(data);
-          });
+          Task.editTask(vm.tasks[index]).catch(err => console.error(err));
         }
-
       };
 
       vm.fetchTasks = () => {
@@ -35,6 +31,14 @@
 
       vm.createTask = () => {
         Task.createTask(vm.newTask).then(data => {
+          vm.fetchTasks();
+        });
+      };
+
+      vm.deleteTask = (index) => {
+        Task.deleteTask(vm.tasks[index]).then(data => {
+          vm.originalTasks = [];
+          vm.clicked = [];
           vm.fetchTasks();
         });
       };

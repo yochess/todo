@@ -15,19 +15,19 @@
         </span>
       </div>
       <div class="col-md-2">
-        <a ng-hide="vm.clicked[$index]">{{task.title}}</a>
+        <span ng-hide="vm.clicked[$index]">{{task.title}}</span>
         <input ng-show="vm.clicked[$index]" type="text" ng-model="task.title">
       </div>
       <div class="col-md-4">
-        <a ng-hide="vm.clicked[$index]">{{task.description}}</a>
+        <span ng-hide="vm.clicked[$index]">{{task.description}}</span>
         <textarea cols="50" ng-show="vm.clicked[$index]" type="text" ng-model="task.description"></textarea>
       </div>
       <div class="col-md-2">
-        <a ng-hide="vm.clicked[$index]">
+        <span ng-hide="vm.clicked[$index]">
           <span ng-if="task.privacy === '1'">Public</span>
           <span ng-if="task.privacy === '2'">Private</span>
           <span ng-if="task.privacy === '3'">Protected</span>
-        </a>
+        </span>
           <select ng-init="task.privacy = task.privacy.toString()" ng-model="task.privacy" ng-show="vm.clicked[$index]">
             <option value="1">Public</option>
             <option value="2">Private</option>
@@ -36,7 +36,7 @@
       </div>
       <div class="col-md-2">
         <a ng-show="vm.clicked[$index]">
-          <span>DELETE</span>
+          <span ng-click="vm.deleteTask($index)">DELETE</span>
         </a>
       </div>
     </div>

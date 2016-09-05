@@ -9,18 +9,23 @@
         return $http.get('/api/task').then(res => res.data);
       };
 
-      const createTask = (task) => {
-        return $http.post('/api/task', task).then(res => res.data);
+      const createTask = (newTask) => {
+        return $http.post('/api/task', newTask).then(res => res.data);
       };
 
-      const editTask = (newTask) => {
-        return $http.put(`/api/task/${newTask.id}`, newTask).then(res => res.data);
-      }
+      const editTask = (task) => {
+        return $http.put(`/api/task/${task.id}`, task).then(res => res.data);
+      };
+
+      const deleteTask = (task) => {
+        return $http.delete(`/api/task/${task.id}`, task).then(res => res.data);
+      };
 
       return {
         fetchTasks,
         createTask,
-        editTask
+        editTask,
+        deleteTask
       };
     }
   ]);

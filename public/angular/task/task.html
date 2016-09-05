@@ -1,14 +1,80 @@
 <div class="task">
-  <h2>Drake's TODOS</h2>
-  <div class="row">
-    <div class="col-md-4">
-a
-    </div>
-    <div class="col-md-4">
-b
-    </div>
-    <div class="col-md-4">
-c
+  <h2>Todos</h2>
+  <!-- TODO ViEW -->
+  <div ng-show="vm.tasks && vm.tasks.length > 0">
+    <div class="row" ng-repeat="task in vm.tasks track by $index">
+      <div class="col-md-2">
+        <span ng-hide="vm.clicked[$index]" ng-click="vm.toggleEdit($index)">
+          <span><a>EDIT</a></span>
+        </span>
+        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit($index, false)">
+          <span><a>CANCEL</a></span>
+        </span>
+        <span ng-show="vm.clicked[$index]" ng-click="vm.toggleEdit($index, true)">
+          <span><a>SAVE</a></span>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <a ng-hide="vm.clicked[$index]">{{task.title}}</a>
+        <input ng-show="vm.clicked[$index]" type="text" ng-model="task.title">
+      </div>
+      <div class="col-md-4">
+        <a ng-hide="vm.clicked[$index]">{{task.description}}</a>
+        <textarea cols="50" ng-show="vm.clicked[$index]" type="text" ng-model="task.description"></textarea>
+      </div>
+      <div class="col-md-2">
+        <a ng-hide="vm.clicked[$index]">
+          <span ng-if="task.privacy === '1'">Public</span>
+          <span ng-if="task.privacy === '2'">Private</span>
+          <span ng-if="task.privacy === '3'">Protected</span>
+        </a>
+          <select ng-init="task.privacy = task.privacy.toString()" ng-model="task.privacy" ng-show="vm.clicked[$index]">
+            <option value="1">Public</option>
+            <option value="2">Private</option>
+            <option value="3">Friends Only</option>
+          </select>
+      </div>
+      <div class="col-md-2">
+        <a ng-show="vm.clicked[$index]">
+          <span>DELETE</span>
+        </a>
+      </div>
     </div>
   </div>
+  <div ng-show="vm.tasks && vm.tasks.length === 0">
+    <h4>You Currently have no Todos!</h4>
+  </div>
+  <!-- end TODO VIEW -->
+
+  <h2>Create a New Todo</h2>
+  <!-- TODO FORM -->
+  <form ng-submit="vm.createTask()">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-4"><label>Enter Title: </label></div>
+          <div class="col-md-8"><input type="text" placeholder="Title" ng-model="vm.newTask.title"></div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-md-4"><label>Privacy: </label></div>
+          <div class="col-md-6">
+            <select ng-model="vm.newTask.privacy">
+              <option value="1">Public</option>
+              <option value="2">Private</option>
+              <option value="3">Friends Only</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <textarea rows="4" cols="50" placeholder="Enter Desciption" ng-model="vm.newTask.description"></textarea>
+      </div>
+      <div class="col-md-2">
+        <button type="submit">Create Todo</button>
+      </div>
+    </div>
+  </form>
+  <!-- TODO FORM -->
+
 </div>

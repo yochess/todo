@@ -2,7 +2,7 @@
   'use strict';
   const app = angular.module('todo');
 
-  app.service('Auth', [
+  app.factory('Auth', [
     '$http',
     '$q',
     '$window',

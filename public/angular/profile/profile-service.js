@@ -2,7 +2,7 @@
   'use strict';
   const app = angular.module('todo');
 
-  app.service('Profile', [
+  app.factory('Profile', [
     '$http',
     function($http) {
 

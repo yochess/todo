@@ -1,6 +1,8 @@
 (() => {
   'use strict';
-  const app = angular.module('todo', ['ui.router']);
+  const app = angular.module('todo', [
+    'ui.router'
+  ]);
 
   app.config([
     '$stateProvider',
@@ -11,7 +13,7 @@
       $stateProvider
         .state('root', {
           abstract: true,
-          templateUrl: './root.html'
+          templateUrl: './root.html',
         })
         .state('home', {
           url: '/home',

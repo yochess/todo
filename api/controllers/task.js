@@ -17,15 +17,8 @@ const createTask = (req, res, next) => {
   const userId = req.session.passport.user;
   const title = req.body.title;
   const description = req.body.description;
-  let privacy;
-
-  if (req.body.privacy === 'public') {
-    privacy = 1;
-  } else if (req.body.privacy === 'private') {
-    privacy = 2;
-  } else if (req.body.privacy === 'protected') {
-    privacy = 3;
-  } else {
+  const privacy = +req.body.privacy;
+  if (privacy !== 1 && privacy !== 2 && privacy !== 3) {
     return res.status(404).send('Invalid Privacy Setting!');
   }
 
@@ -44,15 +37,9 @@ const editTask = (req, res, next) => {
   const id = req.params.id;
   const title = req.body.title;
   const description = req.body.description;
-  let privacy;
+  const privacy = +req.body.privacy
 
-  if (req.body.privacy === 'public') {
-    privacy = 1;
-  } else if (req.body.privacy === 'private') {
-    privacy = 2;
-  } else if (req.body.privacy === 'protected') {
-    privacy = 3;
-  } else {
+  if (privacy !== 1 && privacy !== 2 || privacy !== 3) {
     return res.status(404).send('Invalid Privacy Setting!');
   }
 

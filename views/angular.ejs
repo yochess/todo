@@ -2,8 +2,33 @@
 <html>
 <head>
   <title>Angular Todo</title>
+
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://getbootstrap.com/examples/starter-template/starter-template.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+
+  <link href="../assets/css/angular.css" rel="stylesheet">
+
+  <script src="./app.js"></script>
+
+  <script src="./navbar/navbar-directive.js"></script>
+
+  <script src="./auth/auth-service.js"></script>
+  <script src="./task/task-service.js"></script>
+  <script src="./friend/friend-service.js"></script>
+  <script src="./profile/profile-service.js"></script>
+
+  <script src="./navbar/navbar-controller.js"></script>
+  <script src="./auth/auth-controller.js"></script>
+  <script src="./task/task-controller.js"></script>
+  <script src="./friend/friend-controller.js"></script>
+  <script src="./profile/profile-controller.js"></script>
 </head>
-<body>
-  ANGULAR PAGE
+<body ng-app="todo">
+  <div ui-view></div>
 </body>
 </html>

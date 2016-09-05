@@ -6,19 +6,7 @@
     function() {
       return {
         templateUrl: './navbar/navbar.html',
-        controller: ['Auth', function(Auth) {
-          const vm = this;
-          vm.loggedIn = Auth.isAuthSync();
-
-          vm.checkAuth = () => {
-            console.log(Auth.isAuthSync());
-          }
-
-          vm.checkAuthAsync = () => {
-            Auth.isAuthAsync().then(data => console.log(data))
-              .catch(err => console.log(err));
-          };
-        }],
+        controller: 'navbarCtrl',
         controllerAs: 'vm'
       };
     }

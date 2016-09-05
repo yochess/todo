@@ -18,6 +18,9 @@
       }
 
       const isAuthSync = () => {
+        // on a refresh, I'm doing two things
+        // 1. set loggedIn equal to the user's session status on the server
+        // 2. in case the user modifies the window.sessionStorage, I reload the page
         if (refreshed) {
           isAuthAsync().then(data => {
             loggedIn = true;

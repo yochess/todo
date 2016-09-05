@@ -52,9 +52,9 @@
           controller: 'taskCtrl',
           controllerAs: 'vm',
           resolve: {
-            auth: ['Auth', '$state', function(Auth, $state) {
+            auth: ['Auth', '$state', '$timeout', function(Auth, $state, $timeout) {
               if (!Auth.isAuthSync()) {
-                $state.go('login');
+                $timeout(() => { $state.go('login') });
               }
             }]
           }
@@ -69,17 +69,20 @@
     }
   ]);
 
-  // app.run([
-  //   '$rootScope',
-  //   '$state',
-  //   function($rootScope, $state) {
-  //     $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
-  //       // still playing around with this
-  //     });
 
-  //     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-  //       // and this
-  //     });
-  //   }
-  // ]);
+// http://stackoverflow.com/questions/22537311/angular-ui-router-login-authentication
+// playing and experimenting a bit with auth
+  app.run([
+    '$rootScope',
+    '$state',
+    function($rootScope, $state) {
+      // $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
+      //   // still playing around with this
+      // });
+
+      // $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+      //   // and this
+      // });
+    }
+  ]);
 })();

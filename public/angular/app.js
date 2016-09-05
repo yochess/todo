@@ -64,7 +64,14 @@
           parent: 'root',
           templateUrl: './profile/profile.html',
           controller: 'profileCtrl',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            auth: ['Auth', '$state', '$timeout', function(Auth, $state, $timeout) {
+              if (!Auth.isAuthSync()) {
+                $timeout(() => { $state.go('login') });
+              }
+            }]
+          }
         })
         .state('user', {
           url: '/:id',

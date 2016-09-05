@@ -7,7 +7,7 @@ const fetchTasks = (req, res) => {
   db.Task.findAll({
     where: {
       userId,
-      status: 1
+      status: '1'
     }
   })
   .then(tasks => res.send(tasks))
@@ -18,15 +18,15 @@ const createTask = (req, res, next) => {
   const userId = req.session.passport.user;
   const title = req.body.title;
   const description = req.body.description;
-  const privacy = +req.body.privacy;
-  if (privacy !== 1 && privacy !== 2 && privacy !== 3) {
+  const privacy = req.body.privacy;
+  if (privacy !== '1' && privacy !== '2' && privacy !== '3') {
     return res.status(404).send('Invalid Privacy Setting!');
   }
 
   db.Task.create({
     title,
     description,
-    status: 1,
+    status: '1',
     privacy,
     userId
   })
@@ -38,8 +38,8 @@ const editTask = (req, res, next) => {
   const id = req.params.id;
   const title = req.body.title;
   const description = req.body.description;
-  const privacy = +req.body.privacy
-  if (privacy !== 1 && privacy !== 2 && privacy !== 3) {
+  const privacy = req.body.privacy
+  if (privacy !== '1' && privacy !== '2' && privacy !== '3') {
 console.log(privacy);
     return res.status(404).send('Invalid Privacy Setting!');
   }
@@ -71,7 +71,7 @@ const deleteTask = (req, res, next) => {
   })
   .then(task => {
     task.updateAttributes({
-      status: 2
+      status: '2'
     })
     .then(updatedTask => res.status(201).send('Deleted!'))
     .catch(err => next(err));

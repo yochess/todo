@@ -13,14 +13,14 @@ const User = sequelize.define('user', {
 });
 
 const Friend = sequelize.define('friend', {
-  status: Sequelize.INTEGER
+  status: Sequelize.STRING
 });
 
 const Task = sequelize.define('task', {
   title: Sequelize.STRING,
   description: Sequelize.STRING,
-  status: Sequelize.INTEGER,
-  privacy: Sequelize.INTEGER
+  status: Sequelize.STRING,
+  privacy: Sequelize.STRING
 });
 
 

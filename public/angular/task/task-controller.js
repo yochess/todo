@@ -4,12 +4,13 @@
 
   app.controller('taskCtrl', [
     'Task',
-    function(Task) {
+    '$state',
+    function(Task, $state) {
       const vm = this;
       vm.tasks = [];
       vm.originalTasks = [];
-      vm.newTask = {};
       vm.clicked = [];
+      vm.newTask = {};
 
       vm.toggleEdit = (index, bool) => {
         vm.clicked[index] = !vm.clicked[index];
@@ -23,23 +24,27 @@
         }
       };
 
-      vm.fetchTasks = () => {
+      vm.fetchTasks = (index) => {
         Task.fetchTasks().then(data => {
           vm.tasks = data;
+
+          if (index !== undefined) {
+            vm.originalTasks.splice(index,1);
+            vm.clicked.splice(index,1);
+          }
         })
       }
 
       vm.createTask = () => {
         Task.createTask(vm.newTask).then(data => {
           vm.fetchTasks();
+          vm.newTask = {};
         });
       };
 
       vm.deleteTask = (index) => {
         Task.deleteTask(vm.tasks[index]).then(data => {
-          vm.originalTasks = [];
-          vm.clicked = [];
-          vm.fetchTasks();
+          vm.fetchTasks(index);
         });
       };
 

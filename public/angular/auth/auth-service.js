@@ -22,12 +22,11 @@
           isAuthAsync().then(data => {
             loggedIn = true;
             $window.sessionStorage['loggedIn'] = loggedIn;
-            $state.reload();
           })
           .catch(err => {
             loggedIn = false;
             $window.sessionStorage['loggedIn'] = loggedIn;
-            $state.reload();
+            $state.go('login', {}, {reload: true});
           });
           refreshed = false;
         }

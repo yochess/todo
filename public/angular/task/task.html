@@ -28,7 +28,7 @@
           <span ng-if="task.privacy === '2'">Private</span>
           <span ng-if="task.privacy === '3'">Protected</span>
         </span>
-          <select ng-init="task.privacy = task.privacy.toString()" ng-model="task.privacy" ng-show="vm.clicked[$index]">
+          <select ng-init="task.privacy" ng-model="task.privacy" ng-show="vm.clicked[$index]">
             <option value="1">Public</option>
             <option value="2">Private</option>
             <option value="3">Friends Only</option>

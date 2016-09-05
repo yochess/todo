@@ -33,7 +33,7 @@
           resolve: {
             logout: ['$state', 'Auth', function($state, Auth) {
               Auth.logout().then(data => {
-                $state.go('login', {}, {reload: true});
+                $state.go('login');
               });
             }]
           }
@@ -50,7 +50,15 @@
           parent: 'root',
           templateUrl: './task/task.html',
           controller: 'taskCtrl',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            auth: ['Auth', '$state', function(Auth, $state) {
+              console.log(Auth.isAuthSync());
+              if (!Auth.isAuthSync()) {
+                $state.go('login');
+              }
+            }]
+          }
         })
         .state('profile', {
           url: '/profile',

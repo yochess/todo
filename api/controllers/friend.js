@@ -17,7 +17,7 @@ const fetchRequests = (req, res, next) => {
   db.Friend.findAll({
     where: {
       userId,
-      status: 1
+      status: '1'
     }
   })
   .then(friends => res.send(friends))
@@ -34,7 +34,7 @@ const makeRequest = (req, res, next) => {
         return res.status(409).send('Request Already Pending!');
       }
       db.Friend.create({
-        status: 1,
+        status: '1',
         userId,
         friendId
       })
@@ -50,9 +50,9 @@ const makeResponse = (req, res, next) => {
   let status;
 
   if (req.body.status === 'accept') {
-    status = 2;
+    status = '2';
   } else if (req.body.status === 'decline') {
-    status = 3;
+    status = '3';
   } else {
     return res.status(404).send('You are attempting an invalid operation!');
   }
@@ -68,13 +68,13 @@ const makeResponse = (req, res, next) => {
       status
     })
     .then(updatedFriend => {
-      if (status === 3) {
+      if (status === '3') {
         return res.status(201).send('You have declined the request!');
       }
       db.Friend.create({
         userId,
         friendId: updatedFriend.userId,
-        status: 2
+        status: '2'
       })
       .then(newFriend => res.status(201).send('You have accepted the request!'))
       .catch(err => next(err));

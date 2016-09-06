@@ -14,11 +14,18 @@ const fetchUsers = (req, res, next) => {
 };
 
 const fetchUser = (req, res, next) => {
-  const id = req.params.id;
+  let userId;
+  if (!req.session.passport) {
+    userId = null;
+  } else {
+    userId = req.session.passport.user;
+  }
+
+  const friendId = req.params.id;
 
   db.User.findOne({
     where: {
-      id
+      id: friendId
     },
     attributes: {
       exclude: ['password']
@@ -28,7 +35,9 @@ const fetchUser = (req, res, next) => {
     db.Task.findAll({
       where: {
         userId: user.id,
-        status: '1',
+        status: {
+          $ne: '2'
+        },
         privacy: {
           $ne: '2'
         }
@@ -37,8 +46,31 @@ const fetchUser = (req, res, next) => {
     .then(tasks => {
       const obj = {};
       obj.user = user;
-      obj.tasks = tasks;
-      return res.send(obj);
+
+      if (!userId) {
+        obj.tasks = tasks.filter(task => {
+          return task.privacy !== '3';
+        });
+        return res.send(obj);
+      }
+      db.Friend.findOne({
+        where: {
+          userId,
+          friendId,
+          status: '2'
+        }
+      })
+      .then(friend => {
+        if (!friend) {
+          obj.tasks = tasks.filter(task => {
+            return task.privacy !== '3';
+          });
+          return res.send(obj);
+        }
+        obj.tasks = tasks;
+        return res.send(obj);
+      });
+
     })
     .catch(err => res.send(err));
   })

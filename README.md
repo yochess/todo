@@ -1,19 +1,19 @@
 # todo
 
-This repo consists of a fullstack todo app done in Angular, React, and Backbone.
+This repo consists of a fullstack todo app done in Angular.
 
 ##TODO
 
-- [ ] backend
+- [x] backend
   - [x] auth
   - [x] todo api
-  - [ ] friend/profile api
+  - [x] friend/profile api
   
-- [ ] frontend
-  - [ ] angular
+- [x] frontend
+  - [x] angular
     - [x] auth
     - [x] todo feature
-    - [ ] friend/profile feature
+    - [x] friend/profile feature
   - [ ] react
     - [ ] auth
     - [ ] todo feature
@@ -31,6 +31,7 @@ This repo consists of a fullstack todo app done in Angular, React, and Backbone.
 - todo
   * user can get all their todos 
   * user can make/edit/delete a todo
+  * user can set privacy on each of their todo
 - friend/profile api
   * user can friend/unfriend another user
   * user can see the profile of another user

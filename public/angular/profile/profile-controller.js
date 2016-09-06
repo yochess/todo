@@ -45,6 +45,7 @@
           vm.fetchUsers();
           vm.fetchFriends();
           vm.fetchAwaitingFriends();
+          $state.reload('user');
         });
       }
 
@@ -60,9 +61,7 @@
           vm.me = vm.originalMe;
         } else {
           Profile.editProfile(vm.me)
-            .then(data => {
-              $state.reload();
-            })
+            .then(data => { vm.fetchUsers()})
             .catch(err => console.error(err));
         }
       };

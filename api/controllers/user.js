@@ -16,19 +16,31 @@ const fetchUsers = (req, res, next) => {
 const fetchUser = (req, res, next) => {
   const id = req.params.id;
 
-  db.User.findOne({where: {
-    id
-  }})
-  .then(user => {
-    if (!user) {
-      return res.status(200).send('No Such User!');
+  db.User.findOne({
+    where: {
+      id
+    },
+    attributes: {
+      exclude: ['password']
     }
-    return res.send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      joinDate: user.createdAt
+  })
+  .then(user => {
+    db.Task.findAll({
+      where: {
+        userId: user.id,
+        status: '1',
+        privacy: {
+          $ne: '2'
+        }
+      }
     })
+    .then(tasks => {
+      const obj = {};
+      obj.user = user;
+      obj.tasks = tasks;
+      return res.send(obj);
+    })
+    .catch(err => res.send(err));
   })
   .catch(err => next(err));
 };

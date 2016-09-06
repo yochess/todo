@@ -17,7 +17,10 @@
       vm.checkMe.a = +$stateParams.id;
 
       vm.fetchUser = () => {
-        User.fetchUser(vm.id).then(data => vm.user = data);
+        User.fetchUser(vm.id).then(data => {
+          vm.user = data.user;
+          vm.tasks = data.tasks;
+        });
       };
 
       vm.checkFriend = () => {

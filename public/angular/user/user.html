@@ -24,5 +24,15 @@
       <button ng-click="vm.makeRequest()">Request</button>
     </div>
 
+    <div ng-show="vm.tasks.length > 0">
+      <h2>Your friend's public Tasks</h2>
+      <h6>Ugly, but the logic works!!</h6>
+      <div class="row" ng-repeat="task in vm.tasks">
+        <div class="col-md-4">{{task.title}}</div>
+        <div class="col-md-4">{{task.description}}</div>
+        <div class="col-md-4">{{task.createdAt}}</div>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -10,7 +10,7 @@ To download
 
 Enjoy! A demo with 3 giphys is available in the angular-demo.md file.
 
-##TODO
+##Checklist
 
 - [x] backend
   - [x] auth

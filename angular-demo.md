@@ -17,7 +17,7 @@ The html/css portion is really raw, but the logics and api are functioning.
   - drake logs in and accepts friend request (only portions of the page refrshes)
   - both users can now see public and protected todos
   
-![Alt Text]http://i.giphy.com/l2Sq8Caks1DURLZsI.gif
+![Alt Text](http://i.giphy.com/l2Sq8Caks1DURLZsI.gif)
   
 ##User 3 (third)
   - makes an account and can only see public information

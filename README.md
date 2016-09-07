@@ -2,10 +2,12 @@
 
 This repo consists of a fullstack todo app done in Angular.
 
-To download
+To download:
 
 1) clone this repo
+
 2) run npm install in the root directory of the repo
+
 3) run node app.js
 
 Enjoy! A demo with 3 giphys is available in the angular-demo.md file.
